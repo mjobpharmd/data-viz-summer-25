@@ -1,0 +1,19 @@
+---
+title: "example_cars_2_analysis"
+format: html
+---
+
+```{r setup-analysis}
+#| echo: false
+#| message: false
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(forcats)
+```
+
+```{r load-processed}
+# Load processed data
+df <- read_csv("data/mtcars_clean.csv")
+df |> head()
+```
