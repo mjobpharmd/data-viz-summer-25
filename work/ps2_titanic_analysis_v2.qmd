@@ -1,0 +1,113 @@
+---
+title: "ps2_titanic_analysis_v2"
+format: html
+---
+
+
+```{r libraries}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(here)
+library(readr)
+
+# Load Titanic dataset
+titanic <- read_csv(here("data", "Titanic-Dataset.csv"), show_col_types = FALSE)
+```
+
+```{r convert-data}
+# Convert categorical variables to factors
+titanic$Survived <- factor(titanic$Survived, labels = c("Died", "Survived"))
+titanic$Pclass <- factor(titanic$Pclass, labels = c("1st Class", "2nd Class", "3rd Class"))
+```
+
+```{r plot1}
+# Violin plot: Fare distribution by Class and Survival Status
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  labs(title="Fare Distribution by Class and Survival Status", x="Passenger Class", y="Fare") +
+  theme_minimal()
+```
+
+```{r plot2}
+# Remove "Passenger Class" and "Survived" labels
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  labs(title="Fare Distribution by Class and Survival Status",y ="Fare") +
+  guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme_minimal()
+```
+
+
+```{r plot3}
+# remove Pclass which defaults
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  labs(title="Fare Distribution by Class and Survival Status",y ="Fare") +
+  guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme(axis.title.x = element_blank())  # Ensures x-axis label is hidden
+```
+
+```{r plot4}
+# remove x- and y-axis labels and fill label
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  labs(title="Fare Distribution by Class and Survival Status") +  # No x or y labels
+  guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank())  # Removes both labels
+```
+
+```{r plot5}
+# Violin plot: Fare distribution by Class and Survival Status with Dollar Formatting
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  scale_y_continuous(labels = scales::dollar_format()) +  # Add dollar signs to y-axis
+  labs(title="Fare Distribution by Class and Survival Status on The Titanic") +
+  guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank())  # Remove axis labels
+```
+
+
+```{r plot6}
+#change the colors to shades of blue
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  scale_y_continuous(labels = scales::dollar_format()) +  # Add dollar signs to y-axis
+  scale_fill_manual(values = c("Died" = "#000080", "Survived" = "#ADD8E6")) +  # Navy & light blue
+  labs(title="Fare Distribution by Class and Survival Status") +
+  guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank(), # Remove axis labels
+        plot.title = element_text(face = "bold"))
+```
+
+```{r plot7}
+#set title to 18-point font
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  scale_y_continuous(labels = scales::dollar_format()) +  # Add dollar signs to y-axis
+  scale_fill_manual(values = c("Died" = "#000080", "Survived" = "#ADD8E6")) +  # Navy & light blue
+  labs(title="Fare Distribution by Class and Survival Status") +
+ guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        plot.title = element_text(face = "bold", size = 18))  # Set title to 18pt font
+```
+
+```{r plot8}
+# Bold axes-tick labels and clarify title
+ggplot(titanic, aes(x=Pclass, y=Fare, fill=Survived)) +
+  geom_violin(alpha=0.6, scale="width") +
+  scale_y_continuous(labels = scales::dollar_format()) +  # Add dollar signs to y-axis
+  scale_fill_manual(values = c("Died" = "#000080", "Survived" = "#ADD8E6")) +  # Dark & light blue
+  labs(title="Fare Distribution by Class and Survival Status on The Titanic", x="Passenger Class", y="Fare") +
+  guides(fill = guide_legend(title = NULL)) + # Removes the title but keeps the legend
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank(), #blank axes
+    axis.text.x = element_text(face = "bold"),   # Bold x-axis tick labels
+    axis.text.y = element_text(face = "bold"),   # Bold y-axis tick labels
+    plot.title = element_text(face = "bold", size = 17)  # Bold title with 18pt font
+  )
+```
